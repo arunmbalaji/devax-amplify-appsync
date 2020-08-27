@@ -17,8 +17,15 @@ import DialogContent from '@material-ui/core/DialogContent';
 import { CircularProgress } from '@material-ui/core';
 import Voting from './voting';
 import Summary from './summary';
-
+import Amplify, { API, graphqlOperation } from "aws-amplify";
+import * as queries from "../graphql/queries";
+import * as mutations from "../graphql/mutations";
+import awsconfig from "../aws-exports";
 import * as api from '../backend/api'
+//Initialize Amplify.
+Amplify.configure(awsconfig);
+
+
 
 const useStyles = makeStyles((theme) => ({
     dialog: {
@@ -66,23 +73,39 @@ const comments = [
 export default function (props) {
     const classes = useStyles();
 
-    const [vote, setVote] = useState();
+    const [vote, setVote] = useState(undefined);
 
     useEffect(() => {
         async function getVoteHelper() {
-            // const vote = await api.getVote();
+            const vote = await api.getVote();
             
-
-            // TODO
             setVote(vote);
         }
         getVoteHelper();
     }, []);
+    const handleClick = (selection,comment) => {
+        
+        setVote(undefined)
+
+        API.graphql(
+            graphqlOperation(mutations.createVoting, {
+                choice:selection,
+                comment:comment,
+            })
+        ).then((result) => {
+            const res = {
+                selection:result.data.createVoting.choice,
+                comment:result.data.createVoting.comment
+            }
+            setVote(res)
+        });
+    };
+
 
     return (vote !== undefined ?
         (
-            vote.selection === undefined ?
-                < Voting options={options} />
+            vote === undefined ?
+                <Voting options={options} vote={vote} handleClick={handleClick}/>
                 :
                 <Summary data={data} comments={comments} />
         )

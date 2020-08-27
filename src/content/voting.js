@@ -58,6 +58,7 @@ export default function (props) {
         console.log()
     };
 
+
     return (
         < Paper className={classes.contentRoot} variant='elevation' elevation={3} >
 
@@ -69,7 +70,7 @@ export default function (props) {
 
             <TextField className={classes.comment} value={comment} label="Comment" variant="outlined" onChange={event => setComment(event.target.value)} />
 
-            <Button className={classes.submit}> Submit</Button>
+            <Button className={classes.submit} onClick={()=> props.handleclick(selection,comment)}> Submit</Button>
         </Paper >
     );
 }

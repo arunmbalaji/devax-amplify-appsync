@@ -6,8 +6,16 @@ import amber from '@material-ui/core/colors/amber';
 
 import Header from './header/header.js';
 import Content from './content/content.js';
+//Explain the below code - TODO
+import { withAuthenticator } from "aws-amplify-react";
+
+import Amplify from "@aws-amplify/core"; 
+import aws_exports from "./aws-exports";
+
 
 import './App.css';
+Amplify.configure(aws_exports);
+
 
 const useStyles = makeStyles((theme) => ({
     appRoot: {
@@ -40,4 +48,4 @@ function App() {
     );
 }
 
-export default App;
+export default withAuthenticator(App);
