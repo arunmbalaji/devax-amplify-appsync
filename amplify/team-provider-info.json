@@ -1,0 +1,20 @@
+{
+    "dev": {
+        "awscloudformation": {
+            "AuthRoleName": "amplify-devaxamplifyappsync-dev-33034-authRole",
+            "UnauthRoleArn": "arn:aws:iam::873176667661:role/amplify-devaxamplifyappsync-dev-33034-unauthRole",
+            "AuthRoleArn": "arn:aws:iam::873176667661:role/amplify-devaxamplifyappsync-dev-33034-authRole",
+            "Region": "ap-south-1",
+            "DeploymentBucketName": "amplify-devaxamplifyappsync-dev-33034-deployment",
+            "UnauthRoleName": "amplify-devaxamplifyappsync-dev-33034-unauthRole",
+            "StackName": "amplify-devaxamplifyappsync-dev-33034",
+            "StackId": "arn:aws:cloudformation:ap-south-1:873176667661:stack/amplify-devaxamplifyappsync-dev-33034/965cd7b0-e7e7-11ea-bdbc-0ac070ec912c",
+            "AmplifyAppId": "d2ga7frgp462uf"
+        },
+        "categories": {
+            "auth": {
+                "devaxamplifyappsync283b1ac2": {}
+            }
+        }
+    }
+}

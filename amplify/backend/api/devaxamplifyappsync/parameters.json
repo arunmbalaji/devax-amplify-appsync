@@ -1,0 +1,11 @@
+{
+    "AppSyncApiName": "devaxamplifyappsync",
+    "DynamoDBBillingMode": "PAY_PER_REQUEST",
+    "DynamoDBEnableServerSideEncryption": "false",
+    "AuthCognitoUserPoolId": {
+        "Fn::GetAtt": [
+            "authdevaxamplifyappsync283b1ac2",
+            "Outputs.UserPoolId"
+        ]
+    }
+}

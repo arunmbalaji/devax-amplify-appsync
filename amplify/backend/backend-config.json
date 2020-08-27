@@ -1,0 +1,27 @@
+{
+	"auth": {
+		"devaxamplifyappsync283b1ac2": {
+			"service": "Cognito",
+			"providerPlugin": "awscloudformation",
+			"dependsOn": [],
+			"customAuth": false
+		}
+	},
+	"api": {
+		"devaxamplifyappsync": {
+			"service": "AppSync",
+			"providerPlugin": "awscloudformation",
+			"output": {
+				"authConfig": {
+					"additionalAuthenticationProviders": [],
+					"defaultAuthentication": {
+						"authenticationType": "AMAZON_COGNITO_USER_POOLS",
+						"userPoolConfig": {
+							"userPoolId": "authdevaxamplifyappsync283b1ac2"
+						}
+					}
+				}
+			}
+		}
+	}
+}

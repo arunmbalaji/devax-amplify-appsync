@@ -1,0 +1,6 @@
+type voting @model {
+  id: ID!
+  choice: String!
+  comment: String
+  tcount: Int
+}
