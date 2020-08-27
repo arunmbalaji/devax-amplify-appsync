@@ -22,10 +22,8 @@ import * as queries from "../graphql/queries";
 import * as mutations from "../graphql/mutations";
 import awsconfig from "../aws-exports";
 import * as api from '../backend/api'
-//Initialize Amplify.
+
 Amplify.configure(awsconfig);
-
-
 
 const useStyles = makeStyles((theme) => ({
     dialog: {
@@ -73,53 +71,49 @@ const comments = [
 export default function (props) {
     const classes = useStyles();
 
-    const [vote, setVote] = useState(undefined);
-
-    useEffect(() => {
-        async function getVoteHelper() {
-            const vote = await api.getVote();
-            
-            setVote(vote);
-        }
-        getVoteHelper();
-    }, []);
-    const handleClick = (selection,comment) => {
-        
-        setVote(undefined)
-
+    const handleClick = (selection, comment) => {
         API.graphql(
             graphqlOperation(mutations.createVoting, {
-                choice:selection,
-                comment:comment,
+                input: {
+                    choice: selection,
+                    comment: comment,
+                }
             })
-        ).then((result) => {
-            const res = {
-                selection:result.data.createVoting.choice,
-                comment:result.data.createVoting.comment
-            }
-            setVote(res)
-        });
+        )
+            .then(data => {
+                console.log('Added');
+            })
+            .catch(err => {
+                console.log('Failed', err);
+            });
     };
 
-
-    return (vote !== undefined ?
-        (
-            vote === undefined ?
-                <Voting options={options} vote={vote} handleClick={handleClick}/>
-                :
-                <Summary data={data} comments={comments} />
-        )
-        :
-        <Dialog open={vote === undefined} PaperProps={{
-            style: {
-                backgroundColor: 'transparent',
-                boxShadow: 'none',
-            },
-        }}>
-            <DialogContent className={classes.dialog}>
-                <Typography variant='h5' className={classes.loadingtext}> Loading...</Typography>
-                <CircularProgress className={classes.progress} />
-            </DialogContent>
-        </Dialog>
+    return (
+        <div>
+            <Voting options={options} handleClick={handleClick} />
+            <Summary />
+        </div>
     );
+
+
+    // return (vote !== undefined ?
+    //     (
+    //         vote === undefined ?
+    //             <Voting options={options} vote={vote} handleClick={handleClick} />
+    //             :
+    //             <Summary data={data} comments={comments} />
+    //     )
+    //     :
+    //     <Dialog open={vote === undefined} PaperProps={{
+    //         style: {
+    //             backgroundColor: 'transparent',
+    //             boxShadow: 'none',
+    //         },
+    //     }}>
+    //         <DialogContent className={classes.dialog}>
+    //             <Typography variant='h5' className={classes.loadingtext}> Loading...</Typography>
+    //             <CircularProgress className={classes.progress} />
+    //         </DialogContent>
+    //     </Dialog>
+    // );
 }

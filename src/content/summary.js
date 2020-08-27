@@ -16,12 +16,21 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogContent from '@material-ui/core/DialogContent';
 import { CircularProgress } from '@material-ui/core';
 import { PieChart, Pie, Cell } from 'recharts';
+import Amplify, { API, graphqlOperation } from "aws-amplify";
+import * as queries from "../graphql/queries";
+import * as mutations from "../graphql/mutations";
+import * as subscriptions from "../graphql/subscriptions";
+import awsconfig from "../aws-exports";
 
 import * as api from '../backend/api'
 
 const useStyles = makeStyles((theme) => ({
     comment: {
-        alignSelf: 'flex-end'
+        alignSelf: 'flex-end',
+        marginLeft: '30px'
+    },
+    title: {
+        marginTop: '30px'
     }
 }));
 
@@ -30,19 +39,33 @@ const colors = ['#e74c3c', '#af7ac5', '#5dade2', '#16a085', '#f1c40f', '#95a5a6'
 export default function (props) {
     const classes = useStyles();
 
+    const [comments, setComments] = useState([]);
+
+    useEffect(() => {
+        API.graphql(
+            graphqlOperation(subscriptions.onCreateVoting)
+        ).subscribe(newVoting => {
+            console.log('newVoting', comments)
+            comments.unshift(newVoting.value.data.onCreateVoting.comment);
+            setComments([...comments]);
+        });
+    }, []);
+
+
+
     return (
         <div>
-            <PieChart width={400} height={400}>
+            {/* <PieChart width={400} height={400}>
                 <Pie dataKey="value" isAnimationActive={false} data={props.data} cx={200} cy={200} outerRadius={80} label={entry => entry.name} >
                     {
                         props.data.map((entry, index) => <Cell fill={colors[index % colors.length]} />)
                     }
                 </Pie>
-            </PieChart>
+            </PieChart> */}
 
-            <Typography variant="h6" > Comments</Typography>
+            <Typography className={classes.title} variant="h6" > Comments</Typography>
             {
-                props.comments.map(comment => <Typography variant="body1" className={classes.comment}> comment</Typography>)
+                comments.map(comment => <Typography variant="body1" className={classes.comment}> {comment}</Typography>)
             }
         </div>
     );

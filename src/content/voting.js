@@ -70,7 +70,7 @@ export default function (props) {
 
             <TextField className={classes.comment} value={comment} label="Comment" variant="outlined" onChange={event => setComment(event.target.value)} />
 
-            <Button className={classes.submit} onClick={()=> props.handleclick(selection,comment)}> Submit</Button>
+            <Button className={classes.submit} onClick={() => props.handleClick(selection, comment)}> Submit</Button>
         </Paper >
     );
 }
