@@ -51,8 +51,6 @@ export default function (props) {
         });
     }, []);
 
-
-
     return (
         <div>
             {/* <PieChart width={400} height={400}>
